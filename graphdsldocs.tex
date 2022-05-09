@@ -1,0 +1,137 @@
+\documentclass{article}
+\title{GraphDSL Documentacion}
+\author{Nicolas Sandez}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{listings}
+\begin{document}
+
+    \definecolor{dkgreen}{rgb}{0,0.6,0}
+    \definecolor{gray}{rgb}{0.5,0.5,0.5}
+    \definecolor{mauve}{rgb}{0.58,0,0.82}
+    \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+    \lstset{
+            backgroundcolor=\color{backcolour},
+            frame=tb,
+            language=Python,
+            aboveskip=3mm,
+            belowskip=3mm,
+            showstringspaces=false,
+            columns=flexible,
+            basicstyle={\small\ttfamily},
+            numbers=none,
+            numberstyle=\tiny\color{gray},
+            keywordstyle=\color{blue},
+            commentstyle=\color{dkgreen},
+            stringstyle=\color{mauve},
+            breaklines=true,
+            breakatwhitespace=true,
+            tabsize=3
+    }
+
+    \lstset{language=Python}
+
+	\pagenumbering{arabic}
+	
+	\maketitle
+	\newpage
+	
+	
+	\tableofcontents
+	\newpage
+	
+	% \begin{equation*}
+	% 	f(x) = x^2
+	% \end{equation*}
+	\section{Propuesta}
+	El proyecto consiste en un lenguaje especifico de dominio para la generación de diagramas de
+grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, salida por
+pantalla, condicionales, variables enteras y cadenas de caracteres.
+	\section{Propiedades}
+	El lenguaje soporta los tipos de datos: Enteros y Strings. A continuacion se detallan las operaciones disponibles para cada uno.
+	\subsection{Enteros}
+	\begin{itemize}
+		\item Suma
+		\item Resta
+		\item División
+		\item Multiplicación
+		\item Igual que
+		\item Menor
+		\item Mayor
+		\item Menor o igual
+		\item Mayor o igual
+		\item Distinto
+		\item Casteo a string
+	\end{itemize}
+	\subsection{String}
+	\begin{itemize}
+		\item Concatenación
+	    \item Longitud
+	    \item Casteo a entero
+	\end{itemize}
+    \subsection{Nodos}
+    Si bien no es posible definir un tipo de dato nodo por parte del usuario, 
+    internamente son representados por un tipo de dato Nodo, el cual tiene las siguientes operaciones:
+    \begin{itemize}
+       \item{$\rightarrow$ Arista dirigida hacia la derecha.}
+       \item{$\leftarrow$ Arista dirigida hacia la izquierda.}
+       \item{$\leftrightarrow$ Arista bidireccional.}
+       \item Color de nodo.
+    \end{itemize}
+    \subsection{Implementacion}
+    Internamente el lenguaje opera como una matriz, donde cada nodo estara posicionado en una coordenada especifica.
+    El tamaño de la matriz sera definido por el usuario y cada vez que se desee insertar un nodo a al grafo se debe
+    especificar en que fila y columna colocarlo.
+    \subsection{Colores}
+    Tanto los nodos como las aristas permiten establecer el color de las mismas. Los colores disponibles son:
+    \begin{itemize}
+        \color{red}
+        \item red
+        \color{blue}
+        \item blue
+        \color{green}
+        \item green
+        \color{yellow}
+        \item yellow
+        \color{black}
+        \item black
+        \color{black}
+        \item white
+        \color{brown}
+        \item brown
+        \color{purple}
+        \item purple
+        \color{gray}
+        \item grey
+        \color{orange}
+        \item orange
+        \color{pink}
+        \item pink
+    \end{itemize}
+
+    \newpage
+    \section{Funciones nativas}
+    \subsection{len}
+    La funcion len devuelve la longitud de una cadena de caracteres.
+    \begin{align} 
+        \textbf{len}( \textbf{strexp} ) \rightarrow \textbf{int}
+    \end{align}
+    \begin{lstlisting}
+        # Longitud de una cadena
+        string cadena = "ejemplo";
+        int longitud = len(cadena)
+    \end{lstlisting}
+    \subsection{int}
+    La funcion int devuelve la representacion numerica de una cadena de caracteres.
+    \begin{align} 
+        \textbf{int}( \textbf{strexp} ) \rightarrow \textbf{int}
+    \end{align}
+    \begin{lstlisting}
+        # Casteo de string a int
+        string cadena = "10";
+        int numero = int(cadena)
+    \end{lstlisting}
+    \section{Sintaxis de superficie}
+
+\end{document}
