@@ -11,6 +11,9 @@
     \definecolor{mauve}{rgb}{0.58,0,0.82}
     \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
+    \newcommand{\itb}[1]{\textbf{\textit{#1}}}
+    \newcommand{\bd}[1]{\textbf{#1}}
+
     \lstset{
             backgroundcolor=\color{backcolour},
             frame=tb,
@@ -33,7 +36,7 @@
     \lstset{language=Python}
 
 	\pagenumbering{arabic}
-	
+
 	\maketitle
 	\newpage
 	
@@ -115,7 +118,7 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
     \subsection{len}
     La funcion len devuelve la longitud de una cadena de caracteres.
     \begin{align} 
-        \textbf{len}( \textbf{strexp} ) \rightarrow \textbf{int}
+        \itb{len}( \itb{strexp} ) \rightarrow \itb{int}
     \end{align}
     \begin{lstlisting}
         # Longitud de una cadena
@@ -125,13 +128,156 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
     \subsection{int}
     La funcion int devuelve la representacion numerica de una cadena de caracteres.
     \begin{align} 
-        \textbf{int}( \textbf{strexp} ) \rightarrow \textbf{int}
+        \itb{int}( \itb{strexp} ) \rightarrow \itb{int}
     \end{align}
     \begin{lstlisting}
         # Casteo de string a int
         string cadena = "10";
         int numero = int(cadena)
     \end{lstlisting}
+    \subsection{str}
+    La funcion str convierte un entero a cadena de caracteres.
+    \begin{align} 
+        \itb{str} ( \itb{intexp} ) \rightarrow \itb{string}
+    \end{align}
+    \begin{lstlisting}
+        # Casteo de int a string
+        int numero = 10;
+        string cadena = "El numero es: " & str(numero) 
+    \end{lstlisting}
+    \subsection{log}
+    La funcion log logea una string a un archivo "logger.lg".
+    \begin{align} 
+        \itb{log} ( \itb{strexp} )
+    \end{align}
+    \begin{lstlisting}
+        # Logging
+        int contador = 10;
+        log("Loggeando... " & str(numero)) 
+    \end{lstlisting}
     \section{Sintaxis de superficie}
+    \subsection{Condicional}
+    La clausula \textbf{else} es opcional. \par
+    \begin{center}
+        \itb{if} ( \itb{boolexp} ) 
+        \{ \itb{cmd} \} \itb{else} \{ \itb{cmd} \}
+    \end{center}
+    \begin{lstlisting}
+        # Condicionales
+        int edad = 20;
+        if (edad > 18) {
+            log("Puede beber!")
+        } else {
+            log("No puede beber!")
+        }
+    \end{lstlisting}
+    \subsection{Bucles}
+    En este caso contamos con bucles while y for.\par
+    \begin{center}
+        \itb{while} (\itb{boolexp}) \{\itb{cmd}\}
+    \end{center}
+    \begin{lstlisting}
+        # Bucle while
+        int counter = 0;
+        int veces = 5;
+        
+        while (counter < veces) {
+            counter = counter + 1
+        }
+
+    \end{lstlisting}
+    \begin{center}
+        \itb{for} (\itb{intexp} to \itb{intexp}) \{\itb{cmd}\}
+    \end{center}
+    \begin{lstlisting}
+        # Bucle for
+        int counter = 0;
+        int veces = 5;
+        
+        while (0 to veces) {
+            counter = counter + 1
+        }
+
+    \end{lstlisting}
+    \newpage
+    \subsection{Definicion y asignacion de variables}
+    Podemos definir variables del tipo string e int.\par
+    \begin{center}
+        \itb{int} \itb{var} = \itb{intexp}
+    \end{center}
+    \begin{center}
+        \itb{string} \itb{var} = \itb{strexp}
+    \end{center}
+    \begin{lstlisting}
+        # Asignaciones
+        int numero = 15;
+        string saludo = "Buenos dias";
+        numero = numero * 2;
+        saludo = "Buenas noches"
+    \end{lstlisting}
+
+    \subsection{Operadores}
+    Los operadores para expresiones enteras son multiplicacion, division, suma, resta y modulo respectivamente.
+    \begin{center}
+        \itb{intexp} $\left[*|/|+|-|\%\right]$ \itb{intexp}
+    \end{center}
+    El operador para expresiones string es el concatenacion.
+    \begin{center}
+        \itb{strexp} \& \itb{strexp}
+    \end{center}
+
+    \subsection{Grafos}
+    La sentencia Graph indica que se creara un archivo de salida con un nombre especificado por el usuario. 
+    \begin{center}
+        \itb{GRAPH}(\itb{strexp}, \itb{intexp})$\left[\itb{intexp}\right]$
+            \begin{center} \itb{cmd} \end{center}
+        \itb{END}\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad
+    \end{center}
+
+    \itb{Nombre} indica, valga la redundancia, el nombre del archivo de output, \itb{size} establece la distancia entre nodos y
+    \itb{msize} establece las dimensiones de la matriz interna donde se posicionan los nodos, por ejemplo, \itb{msize=4} establecera
+    una matriz interna de 4x4. \par
+    \begin{center}
+        \itb{GRAPH}(\itb{nombre}, \itb{size})$\left[\itb{msize}\right]$
+    \end{center}
+
+    \begin{lstlisting}
+        # Grafos
+        string nombre = "grafo1";
+        # Crea un grafo con una matriz interna de 3x3
+        GRAPH(nombre, 5)[3]
+            ...
+        END 
+    \end{lstlisting}
+
+    \subsection{Nodos y aristas}
+    \bd{GraphDSL} permite la creacion de nodos, estableciendo su identificador (tag) y en que fila y columna insertarlo 
+    en la matriz interna.
+    \begin{center}
+        \itb{node}\{\itb{strexp}\}$<$\itb{intexp},\itb{intexp}$>$
+    \end{center}
+    \begin{lstlisting}
+        string nombre = "";
+        int max = 2;
+        int counter = 0;
+        int fila = 0;
+        int columna = 0;
+        GRAPH("test", 5)[max]
+            while (fila < max) {
+                while (columna < max){
+                    # Construimos el id del nodo
+                    nombre = "n" & str(counter);
+                    # Insertamos el nodo en la matriz
+                    node {nombre}<fila,columna>;
+                    counter = counter + 1;
+                    columna = columna + 1
+                };
+                # Reseteamos el contador de columnas
+                columna = 0;
+                fila = fila + 1
+            }
+        END
+    \end{lstlisting}
+
 
 \end{document}
