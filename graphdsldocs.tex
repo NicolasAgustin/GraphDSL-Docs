@@ -1,7 +1,7 @@
 \documentclass{article}
 \title{GraphDSL Documentacion}
 \author{Nicolas Sandez}
-\usepackage{amsmath}
+\usepackage{amsmath, amssymb}
 \usepackage{xcolor}
 \usepackage{listings}
 \begin{document}
@@ -13,6 +13,7 @@
 
     \newcommand{\itb}[1]{\textbf{\textit{#1}}}
     \newcommand{\bd}[1]{\textbf{#1}}
+    \newcommand{\curly}{\mathrel{\leadsto}}
 
     \lstset{
             backgroundcolor=\color{backcolour},
@@ -278,6 +279,190 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
             }
         END
     \end{lstlisting}
+    Para la creacion de aristas se utiliza la sentencia edge. 
+    \begin{center}
+        \itb{edge} $\left[color\right] \left[tag\right]  \left[nodexp\right]$
+    \end{center}
+    Los parametros \itb{color} y \itb{tag} son opcionales y sirven para establecer respectivamente, 
+    el color de la arista y el peso o tag de la misma.
+    \begin{lstlisting}
+        GRAPH("test", 5)[2]
+            # Insertamos un nodo n1 en fila 0 columna 0
+            node {"n1"}<0,0>;
+            # Insertamos un nodo n1 en fila 0 columna 1
+            node {"n2"}<0,1>;
+            # Insertamos un bucle en el nodo n1 con peso 2
+            edge "red" "2" {n1} -> {n1};
+            # Insertamos una arista dirigida de n1 a n2 con peso 3
+            edge "red" "3" {n1} -> {n2}
+            # Ambas aristas seran de color rojo
+        END
+    \end{lstlisting}
 
+    \newpage
+    \section{Gramatica}
+% ------------------------------
+%   INTEXP    
+% ------------------------------
+\begin{align*}
+    intexp :&= \: term \: + \: term \\
+    &| \: term \: -_{b} \: term \\
+    term :&= \: factor \: * \: factor \\
+    &| \: factor \: \div \: factor \\
+    &| \: factor \: \% \: factor \\
+    factor :&= nat \: | \: var \: | \: -_{u}factor\\
+    &| \: \itb{len} \: strexp \\
+    &| \: \itb{int} \: strexp \\
+\end{align*}
+
+% ------------------------------
+%   BOOLEXP
+% ------------------------------
+\begin{align*}
+    boolexp :&= boolexp \: \vee \: boolexp2 \\
+    boolexp2 :&= boolexp2 \: \wedge \: boolexp3 \\
+    boolexp3 :&= true \: | \: false \\
+    &| \: \sim \: boolexp \\
+    &| \: intexp \: = \: intexp \\
+    &| \: intexp \: < \: intexp \\
+    &| \: intexp \: > \: intexp \\
+    &| \: intexp \: \ne \: intexp \\
+    &| \: intexp \: \leq \: intexp \\
+    &| \: intexp \: \geq \: intexp \\
+    &| \: strexp \: = \: strexp \\
+    &| \: strexp \: < \: strexp \\
+    &| \: strexp \: > \: strexp \\
+    &| \: strexp \: \ne \: strexp \\
+    &| \: strexp \: \leq \: strexp \\
+    &| \: strexp \: \geq \: strexp \\
+\end{align*}
+
+% ------------------------------
+%   STREXP
+% ------------------------------
+\begin{align*}
+    strexp :&= \: strexp \: \& \: strexp2 \\
+    strexp2 :&= \: string \: | \: var \\
+\end{align*}
+
+% ------------------------------
+%   CMD
+% ------------------------------
+\begin{align*}
+    cmdparse :&= \: pass \\
+    &| \: var \: = \: intexp \\
+    &| \: var \: = \: strexp \\
+    &| \: \itb{int} \: var \: = \: intexp \\
+    &| \: \itb{string} \: var \: = \: strexp \\
+    &| \: \itb{log} \: strexp \\
+    &| \: \itb{graph} \: strexp \: intexp \: intexp \: cmdparse \: \itb{end}\\
+    &| \: \itb{for} \: forp \: cmdparse \\
+    &| \: \itb{while} \: boolexp \: cmdparse \\
+    &| \: \itb{if} \: boolexp \: cmdparse \\
+    &| \: \itb{if} \: boolexp \: \itb{else} \: cmdparse \\
+    &| \: cmdparse \: ; \: cmdparse \\
+    &| \: \itb{node} \: parseNodeCmd \\
+    &| \: \itb{color} \: strexp \: nodexp \\
+    &| \: \itb{edge} \: nodexp \\
+    &| \: \itb{edge} \: strexp \: nodexp \\
+    &| \: \itb{edge} \: strexp \: strexp \: nodexp \\
+    parseNodeCmd :&= \: (strexp, intexp, intexp) \\
+    forp :&= \: intexp \: \itb{to} \: intexp \\
+\end{align*}
+
+% ------------------------------
+%   NODEXP
+% ------------------------------
+\begin{align*}
+    nodexp :&= \: var \: | \: node \\ 
+    &| \: nodexp \: \leftarrow \: nodexp \\
+    &| \: nodexp \: \rightarrow \: nodexp \\
+    &| \: nodexp \: \leftrightarrow \: nodexp \\
+\end{align*}
+
+\section{Semantica}
+\begin{align*}
+    % NVal
+    \frac{}{(nv, \sigma) \Downarrow_{intexp} nv} NVal \quad
+    % Var
+    \frac{}{(v, \sigma) \Downarrow_{intexp} \sigma v} Var \quad
+    % UMinus
+    \frac{(e, \sigma)\Downarrow_{intexp} n}
+         {(-_{u}e, \sigma) \Downarrow_{intexp} -n} UMinus \\~\\
+    % Plus
+    \frac{(e_0, \sigma) \Downarrow _{intexp}n_0 \quad (e_1,\sigma) \Downarrow_{intexp} n_1}
+         {(e_0 + e_1, \sigma)\Downarrow _{intexp}n_0 + n_1} PLUS \qquad (\text{Analogamente para }-_b, \times) \\~\\
+    % Div
+    \frac{(e_0, \sigma) \Downarrow _{intexp}n_0 \quad (e_1,\sigma) \Downarrow_{intexp} n_1 \quad n_1\neq 0}
+         {(e_0 \div e_1, \sigma)\Downarrow _{intexp}n_0 \div n_1} DIV \quad 
+    % Int
+    \frac{(e_0, \sigma)\Downarrow_{strexp} s_0}{(e_0,\sigma)\Downarrow_{intexp} {s_0}'} INT\\~\\ 
+    % Mod
+    \frac{(e_0, \sigma)\Downarrow_{intexp} n_0 \quad (e_1, \sigma)\Downarrow_{intexp} n_1}
+         {(e_0 \% e_1, \sigma)\Downarrow _{intexp} n_0 \, \% \, n_1} Mod \quad
+    % Len
+    \frac{(e_0,\sigma)\Downarrow _{strexp} s_0}
+         {(\textbf{len}\:e_0,\sigma)\Downarrow _{intexp} {s_0}'} Len\\~\\
+    % SVal
+    \frac{}{(nv, \sigma)\Downarrow _{strexp} nv} SVal \quad
+    % SVar
+    \frac{}{(v, \sigma)\Downarrow _{strexp}\sigma v} SVar \quad
+    % Concat
+    \frac{(e_0, \sigma) \Downarrow _{strexp}s_0 \quad (e_1,\sigma) \Downarrow_{strexp} s_1}
+         {(e_0\,\&\,e_1, \sigma)\Downarrow _{strexp}s_0 \, \& \, s_1} Concat \\~\\
+    % Str
+    \frac{(e_0, \sigma) \Downarrow _{intexp}n_0}
+         {(e_0, \sigma)\Downarrow _{strexp}{n_0}'} STR \quad
+    % BVal
+    \frac{}{(bv, \sigma)\Downarrow _{boolexp}bv} BVal \\~\\
+    % Eq
+    \frac{(e_0,\sigma)\Downarrow _{intexp} n_0 \quad (e_1,\sigma)\Downarrow _{intexp} n_1}
+         {(e_0 = e_1, \sigma)\Downarrow _{boolexp} n_0 = n_1} Eq \quad (\text{Analogamente para }\; <, \;>,\;>=,\;<=\text{ y strexp}) \\~\\
+    % Not
+    \frac{(p,\sigma)\Downarrow _{boolexp} b}
+         {(\neg p, \sigma)\Downarrow _{boolexp} \neg b} Not \quad 
+    % Or
+    \frac{(p_0,\sigma)\Downarrow _{boolexp} b_0 \quad (p_1,\sigma)\Downarrow _{boolexp} b_1}
+         {(p_0 \vee p_1, \sigma)\Downarrow _{boolexp} b_0 \vee b_1} OR \quad (\text{Analogamente para }\wedge) \\~\\
+    % Assign
+    \frac{(e,\sigma)\Downarrow _{intexp} n}
+         {(v:=e,\sigma) \curly (\textbf{pass},[\sigma|v:n])} Assign \quad (\text{Analogamente para strexp}) \\~\\
+    % Def
+    \frac{(e,\sigma)\Downarrow _{intexp} n}
+         {(\textbf{int}\:v:=e,\sigma) \curly (\textbf{pass},[\sigma|v:n])} Def \quad 
+    % DefStr
+    \frac{(e,\sigma)\Downarrow _{strexp} s}
+         {(\textbf{string}\:v:=e,\sigma) \curly (\textbf{pass},[\sigma|v:s])} DefStr \\~\\
+    % Seq
+    \frac{}{(\textbf{pass};c_1,\sigma) \curly (c_1,\sigma)} Seq_1 \quad 
+    % Seq2
+    \frac{(c_0,\sigma) \curly ({c_0}',{\sigma}')}
+         {(c_0;c_1,\sigma) \curly ({c_0}';c_1,{\sigma}')} Seq_2 \\~\\
+    % Log
+    \frac{(e,\sigma)\Downarrow _{strexp} s_0}
+         {(\textbf{log} \: e,\sigma) \overset{n!}{\curly} (\textbf{pass},\sigma)} Log \quad
+    % If1
+    \frac{(p,\sigma) \Downarrow _{boolexp} true}
+         {(\textbf{if} \: p \: \textbf{then} \: c_0,\sigma) \curly (c_0,\sigma)}If_1 \quad 
+    % If2
+    \frac{(p,\sigma)\Downarrow _{boolexp} false}
+         {(\textbf{if} \: p \: \textbf{then}\: c_0,\sigma) \curly (\textbf{pass},\sigma)}If_2 \\~\\
+\end{align*}
+\newpage
+\begin{align*}
+    % IfElse1
+    \frac{(p,\sigma)\Downarrow _{boolexp} true}
+         {(\textbf{if}\: p\: \textbf{then}\: c_0\: \textbf{else}\: c_1,\sigma) \curly (c_0,\sigma)}IfElse_1 \quad
+    % IfElse2
+    \frac{(p,\sigma)\Downarrow _{boolexp} false}
+         {(\textbf{if}\: p\: \textbf{then}\: c_0\: \textbf{else}\: c_1,\sigma) \curly (c_1,\sigma)}IfElse_2 \\~\\
+    % For
+    \frac{(e_0,\sigma) \Downarrow _{intexp} n_0 \quad (e_1,\sigma)\Downarrow _{intexp} n_1}
+         {(\textbf{for}\: e_0 \: \textbf{to} \: e_1 \: c_0,\sigma) \curly (\textbf{if}\: n_0 \: \ne \: n_1 \: \textbf{then} \: (c_0;\textbf{for} \: (n_0 + 1) \: \textbf{to}\: n_1 \: c_0) \:\textbf{else}\: \textbf{pass},\sigma)}For \\~\\    
+    % While
+    \frac{(p,\sigma) \Downarrow _{boolexp}}
+         {(\textbf{while}\: p_0 \: c_0,\sigma) \curly (\textbf{if}\: p \: \textbf{then} \: (c_0;\textbf{while} \: p \: c_0) \:\textbf{else}\: \textbf{pass},\sigma)}While         
+    % FALTA AGREGAR LA SEMANTICA PARA NODEXP
+\end{align*}
 
 \end{document}
