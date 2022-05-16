@@ -1,6 +1,6 @@
 \documentclass{article}
-\title{GraphDSL Documentacion}
-\author{Nicolas Sandez}
+\title{GraphDSL}
+\author{Nicolás Sandez, Dardo Eloy}
 \usepackage{amsmath, amssymb}
 \usepackage{xcolor}
 \usepackage{listings}
@@ -49,11 +49,10 @@
 	% 	f(x) = x^2
 	% \end{equation*}
 	\section{Propuesta}
-	El proyecto consiste en un lenguaje especifico de dominio para la generación de diagramas de
-grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, salida por
-pantalla, condicionales, variables enteras y cadenas de caracteres.
+	El proyecto consiste en un lenguaje específico de dominio para la generación de diagramas de
+grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, condicionales, variables enteras y cadenas de caracteres.
 	\section{Propiedades}
-	El lenguaje soporta los tipos de datos: Enteros y Strings. A continuacion se detallan las operaciones disponibles para cada uno.
+	El lenguaje soporta los tipos de datos: Enteros y Strings. A continuación se detallan las operaciones disponibles para cada uno.
 	\subsection{Enteros}
 	\begin{itemize}
 		\item Suma
@@ -83,8 +82,8 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
        \item{$\leftrightarrow$ Arista bidireccional.}
        \item Color de nodo.
     \end{itemize}
-    \subsection{Implementacion}
-    Internamente el lenguaje opera como una matriz, donde cada nodo estara posicionado en una coordenada especifica.
+    \subsection{Implementación}
+    Internamente el lenguaje opera como una matriz, donde cada nodo estará posicionado en una coordenada específica.
     El tamaño de la matriz sera definido por el usuario y cada vez que se desee insertar un nodo a al grafo se debe
     especificar en que fila y columna colocarlo.
     \subsection{Colores}
@@ -127,7 +126,7 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
         int longitud = len(cadena)
     \end{lstlisting}
     \subsection{int}
-    La funcion int devuelve la representacion numerica de una cadena de caracteres.
+    La funcion int devuelve la representación numérica de una cadena de caracteres.
     \begin{align} 
         \itb{int}( \itb{strexp} ) \rightarrow \itb{int}
     \end{align}
@@ -147,7 +146,7 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
         string cadena = "El numero es: " & str(numero) 
     \end{lstlisting}
     \subsection{log}
-    La funcion log logea una string a un archivo "logger.lg".
+    La función log logea una string a un archivo "logger.lg".
     \begin{align} 
         \itb{log} ( \itb{strexp} )
     \end{align}
@@ -201,7 +200,7 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
 
     \end{lstlisting}
     \newpage
-    \subsection{Definicion y asignacion de variables}
+    \subsection{Definición y asignación de variables}
     Podemos definir variables del tipo string e int.\par
     \begin{center}
         \itb{int} \itb{var} = \itb{intexp}
@@ -218,17 +217,17 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
     \end{lstlisting}
 
     \subsection{Operadores}
-    Los operadores para expresiones enteras son multiplicacion, division, suma, resta y modulo respectivamente.
+    Los operadores para expresiones enteras son multiplicación, división, suma, resta y modulo respectivamente.
     \begin{center}
         \itb{intexp} $\left[*|/|+|-|\%\right]$ \itb{intexp}
     \end{center}
-    El operador para expresiones string es el concatenacion.
+    El operador para expresiones string es el concatenación.
     \begin{center}
         \itb{strexp} \& \itb{strexp}
     \end{center}
 
     \subsection{Grafos}
-    La sentencia Graph indica que se creara un archivo de salida con un nombre especificado por el usuario. 
+    La sentencia Graph indica que se creará un archivo de salida con un nombre especificado por el usuario. 
     \begin{center}
         \itb{GRAPH}(\itb{strexp}, \itb{intexp})$\left[\itb{intexp}\right]$
             \begin{center} \itb{cmd} \end{center}
@@ -236,7 +235,7 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
     \end{center}
 
     \itb{Nombre} indica, valga la redundancia, el nombre del archivo de output, \itb{size} establece la distancia entre nodos y
-    \itb{msize} establece las dimensiones de la matriz interna donde se posicionan los nodos, por ejemplo, \itb{msize=4} establecera
+    \itb{msize} establece las dimensiones de la matriz interna donde se posicionan los nodos, por ejemplo, \itb{msize=4} establecerá
     una matriz interna de 4x4. \par
     \begin{center}
         \itb{GRAPH}(\itb{nombre}, \itb{size})$\left[\itb{msize}\right]$
@@ -252,8 +251,8 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
     \end{lstlisting}
 
     \subsection{Nodos y aristas}
-    \bd{GraphDSL} permite la creacion de nodos, estableciendo su identificador (tag) y en que fila y columna insertarlo 
-    en la matriz interna.
+    \bd{GraphDSL} permite la creación de nodos, permitiendo establecer un identificador (tag), asi como también 
+    en que fila y columna insertarlo en la matriz interna.
     \begin{center}
         \itb{node}\{\itb{strexp}\}$<$\itb{intexp},\itb{intexp}$>$
     \end{center}
@@ -279,7 +278,7 @@ pantalla, condicionales, variables enteras y cadenas de caracteres.
             }
         END
     \end{lstlisting}
-    Para la creacion de aristas se utiliza la sentencia edge. 
+    Para la creación de aristas se utiliza la sentencia edge. 
     \begin{center}
         \itb{edge} $\left[color\right] \left[tag\right]  \left[nodexp\right]$
     \end{center}
