@@ -70,12 +70,12 @@ grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, 
 	\subsection{String}
 	\begin{itemize}
 		\item Concatenación
-	    \item Longitud
+	    \item Lóngitud
 	    \item Casteo a entero
 	\end{itemize}
     \subsection{Nodos}
     Si bien no es posible definir un tipo de dato nodo por parte del usuario, 
-    internamente son representados por un tipo de dato Nodo, el cual tiene las siguientes operaciones:
+    internamente son representados por un tipo de dato Nodo. El cual tiene las siguientes operaciones:
     \begin{itemize}
        \item{$\rightarrow$ Arista dirigida hacia la derecha.}
        \item{$\leftarrow$ Arista dirigida hacia la izquierda.}
@@ -84,7 +84,7 @@ grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, 
     \end{itemize}
     \subsection{Implementación}
     Internamente el lenguaje opera como una matriz, donde cada nodo estará posicionado en una coordenada específica.
-    El tamaño de la matriz sera definido por el usuario y cada vez que se desee insertar un nodo a al grafo se debe
+    El tamaño de la matriz sera definido por el usuario y cada vez que se desee insertar un nodo al grafo se debe
     especificar en que fila y columna colocarlo.
     \subsection{Colores}
     Tanto los nodos como las aristas permiten establecer el color de las mismas. Los colores disponibles son:
@@ -116,17 +116,17 @@ grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, 
     \newpage
     \section{Funciones nativas}
     \subsection{len}
-    La funcion len devuelve la longitud de una cadena de caracteres.
+    La función len devuelve la lóngitud de una cadena de caracteres.
     \begin{align} 
         \itb{len}( \itb{strexp} ) \rightarrow \itb{int}
     \end{align}
     \begin{lstlisting}
-        # Longitud de una cadena
+        # Lóngitud de una cadena
         string cadena = "ejemplo";
-        int longitud = len(cadena)
+        int lóngitud = len(cadena)
     \end{lstlisting}
     \subsection{int}
-    La funcion int devuelve la representación numérica de una cadena de caracteres.
+    La función int devuelve la representación numérica de una cadena de caracteres.
     \begin{align} 
         \itb{int}( \itb{strexp} ) \rightarrow \itb{int}
     \end{align}
@@ -136,7 +136,7 @@ grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, 
         int numero = int(cadena)
     \end{lstlisting}
     \subsection{str}
-    La funcion str convierte un entero a cadena de caracteres.
+    La función str convierte un entero a cadena de caracteres.
     \begin{align} 
         \itb{str} ( \itb{intexp} ) \rightarrow \itb{string}
     \end{align}
@@ -157,7 +157,7 @@ grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, 
     \end{lstlisting}
     \section{Sintaxis de superficie}
     \subsection{Condicional}
-    La clausula \textbf{else} es opcional. \par
+    La cláusula \textbf{else} es opcional. \par
     \begin{center}
         \itb{if} ( \itb{boolexp} ) 
         \{ \itb{cmd} \} \itb{else} \{ \itb{cmd} \}
@@ -251,7 +251,7 @@ grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, 
     \end{lstlisting}
 
     \subsection{Nodos y aristas}
-    \bd{GraphDSL} permite la creación de nodos, permitiendo establecer un identificador (tag), asi como también 
+    \bd{GraphDSL} permite la creación de nodos, estableciendo un identificador (tag), así como también 
     en que fila y columna insertarlo en la matriz interna.
     \begin{center}
         \itb{node}\{\itb{strexp}\}$<$\itb{intexp},\itb{intexp}$>$
@@ -299,7 +299,7 @@ grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, 
     \end{lstlisting}
 
     \newpage
-    \section{Gramatica}
+    \section{Gramática}
 % ------------------------------
 %   INTEXP    
 % ------------------------------
@@ -379,7 +379,7 @@ grafos en LaTeX. Dicho lenguaje, que lo llamaremos GraphDSL, cuenta con bucles, 
     &| \: nodexp \: \leftrightarrow \: nodexp \\
 \end{align*}
 
-\section{Semantica}
+\section{Semántica}
 \begin{align*}
     % NVal
     \frac{}{(nv, \sigma) \Downarrow_{intexp} nv} NVal \quad
